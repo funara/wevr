@@ -1,0 +1,45 @@
+{
+  "name": "wevr",
+  "version": "0.1.0",
+  "description": "Opinionated Engineering Workflow for OpenCode — Plan, Build, Review.",
+  "keywords": [
+    "opencode",
+    "workflow",
+    "engineering",
+    "pipeline",
+    "ai-agents",
+    "code-review",
+    "debugging",
+    "security-audit",
+    "security",
+    "planner",
+    "builder",
+    "cli"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "bin": {
+    "wevr": "bin/wevr.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/funara/wevr.git"
+  },
+  "homepage": "https://github.com/funara/wevr#readme",
+  "bugs": {
+    "url": "https://github.com/funara/wevr/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "dependencies": {
+    "@clack/prompts": "^0.9"
+  }
+}

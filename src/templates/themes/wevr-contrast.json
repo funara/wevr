@@ -1,0 +1,177 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "theme": {
+    "primary": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "secondary": {
+      "dark": "#99f3ff",
+      "light": "#99f3ff"
+    },
+    "accent": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "error": {
+      "dark": "#fc5d7c",
+      "light": "#fc5d7c"
+    },
+    "warning": {
+      "dark": "#ff669c",
+      "light": "#ff669c"
+    },
+    "success": {
+      "dark": "#00cc76",
+      "light": "#00cc76"
+    },
+    "info": {
+      "dark": "#00b4cc",
+      "light": "#00b4cc"
+    },
+    "text": {
+      "dark": "#ffffff",
+      "light": "#ffffff"
+    },
+    "textMuted": {
+      "dark": "#888888",
+      "light": "#888888"
+    },
+    "background": {
+      "dark": "#000000",
+      "light": "#000000"
+    },
+    "backgroundPanel": {
+      "dark": "#000000",
+      "light": "#000000"
+    },
+    "backgroundElement": {
+      "dark": "#000000",
+      "light": "#000000"
+    },
+    "border": {
+      "dark": "#101520",
+      "light": "#101520"
+    },
+    "borderActive": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "borderSubtle": {
+      "dark": "#101520",
+      "light": "#101520"
+    },
+    "diffAdded": {
+      "dark": "#00cc76",
+      "light": "#00cc76"
+    },
+    "diffRemoved": {
+      "dark": "#fc5d7c",
+      "light": "#fc5d7c"
+    },
+    "diffContext": {
+      "dark": "#888888",
+      "light": "#888888"
+    },
+    "diffAddedBg": {
+      "dark": "#1a2618",
+      "light": "#1a2618"
+    },
+    "diffRemovedBg": {
+      "dark": "#2a1a1a",
+      "light": "#2a1a1a"
+    },
+    "diffContextBg": {
+      "dark": "#000000",
+      "light": "#000000"
+    },
+    "markdownText": {
+      "dark": "#ffffff",
+      "light": "#ffffff"
+    },
+    "markdownHeading": {
+      "dark": "#ff669c",
+      "light": "#ff669c"
+    },
+    "markdownLink": {
+      "dark": "#99f3ff",
+      "light": "#99f3ff"
+    },
+    "markdownLinkText": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "markdownCode": {
+      "dark": "#66ffbf",
+      "light": "#66ffbf"
+    },
+    "markdownBlockQuote": {
+      "dark": "#888888",
+      "light": "#888888"
+    },
+    "markdownStrong": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "syntaxComment": {
+      "dark": "#888888",
+      "light": "#888888"
+    },
+    "syntaxKeyword": {
+      "dark": "#ff669c",
+      "light": "#ff669c"
+    },
+    "syntaxFunction": {
+      "dark": "#00b4cc",
+      "light": "#00b4cc"
+    },
+    "syntaxVariable": {
+      "dark": "#ffb966",
+      "light": "#ffb966"
+    },
+    "syntaxString": {
+      "dark": "#66ffbf",
+      "light": "#66ffbf"
+    },
+    "syntaxNumber": {
+      "dark": "#a000ff",
+      "light": "#a000ff"
+    },
+    "syntaxType": {
+      "dark": "#99f3ff",
+      "light": "#99f3ff"
+    },
+    "syntaxOperator": {
+      "dark": "#ff669c",
+      "light": "#ff669c"
+    },
+    "syntaxPunctuation": {
+      "dark": "#ffffff",
+      "light": "#ffffff"
+    },
+    "inputBackground": {
+      "dark": "#000000",
+      "light": "#000000"
+    },
+    "InputBorder": {
+      "dark": "#101520",
+      "light": "#101520"
+    },
+    "InputBorderActive": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "inputPrompt": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "inputCursor": {
+      "dark": "#ff7039",
+      "light": "#ff7039"
+    },
+    "inputText": {
+      "dark": "#ffffff",
+      "light": "#ffffff"
+    }
+  }
+}

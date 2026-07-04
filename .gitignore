@@ -1,0 +1,7 @@
+node_modules
+.commandcode
+.git/
+*.log
+docs/plans
+docs/reports
+.addons

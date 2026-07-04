@@ -1,0 +1,73 @@
+{
+  "reasoning": {
+    "provider": "opencode",
+    "model": "big-pickle",
+    "agents": [
+      "composer",
+      "debugger",
+      "prober",
+      "researcher",
+      "plan-checker",
+      "inspector"
+    ],
+
+    "recommended": [
+      {
+        "value": "opencode/big-pickle",
+        "label": "default (opencode/big-pickle)"
+      },
+      {
+        "value": "anthropic/claude-opus-4-8",
+        "label": "anthropic/claude-opus-4-8"
+      },
+      { "value": "openai/gpt-5.5", "label": "openai/gpt-5.5" }
+    ]
+  },
+  "precision": {
+    "provider": "opencode",
+    "model": "big-pickle",
+    "agents": [
+      "tester",
+      "reviewer",
+      "auditor",
+      "tracer"
+    ],
+
+    "recommended": [
+      {
+        "value": "opencode/big-pickle",
+        "label": "default (opencode/big-pickle)"
+      },
+      {
+        "value": "anthropic/claude-sonnet-4-5",
+        "label": "anthropic/claude-sonnet-4-5"
+      },
+      { "value": "openai/gpt-5.1", "label": "openai/gpt-5.1" }
+    ]
+  },
+  "fast": {
+    "provider": "opencode",
+    "model": "deepseek-v4-flash-free",
+    "agents": [
+      "coder",
+      "fixer",
+      "patcher",
+      "plan-writer",
+      "compose-reporter",
+      "debug-reporter",
+      "probe-reporter"
+    ],
+
+    "recommended": [
+      {
+        "value": "opencode/deepseek-v4-flash-free",
+        "label": "default (opencode/deepseek-v4-flash-free)"
+      },
+      {
+        "value": "anthropic/claude-haiku-4-5",
+        "label": "anthropic/claude-haiku-4-5"
+      },
+      { "value": "openai/gpt-5.4-mini", "label": "openai/gpt-5.4-mini" }
+    ]
+  }
+}
