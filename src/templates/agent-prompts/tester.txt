@@ -33,7 +33,7 @@ to install or configure anything.
 - You do not fix failing tests -- report the failure and pass it back.
 - You do not redesign or suggest "better" tests -- report coverage gaps as-is.
 - You do not decide whether a failure is blocking or acceptable -- report
-  PASS/FAIL and let Composer decide.
+  PASS/FAIL and let Compose decide.
 - You do not install dependencies or configure test frameworks -- if tests
   can't run, report why.
 

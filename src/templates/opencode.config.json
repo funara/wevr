@@ -23,12 +23,12 @@
     "plan": { "hidden": true },
     "build": { "hidden": true },
 
-    "composer": {
+    "compose": {
       "mode": "primary",
       "color": "#00b4cc",
       "temperature": 0.7,
       "description": "Full engineering workflow: Explore, Plan, Build — 3 phases, 7 subagents. Starts in Explore mode, transitions via guardrail gates.",
-      "prompt": "{file:./prompts/composer.txt}",
+      "prompt": "{file:./prompts/compose.txt}",
       "permission": {
         "read": "deny",
         "glob": "deny",
@@ -54,11 +54,11 @@
     },
 
 
-    "debugger": {
+    "debug": {
       "mode": "primary",
       "color": "#ff7039",
-      "description": "Root-cause analysis via inspector/fixer/reporter. Standalone primary agent — does not depend on Composer. Pure orchestrator — all investigation, fixes, and reports delegated to subagents.",
-      "prompt": "{file:./prompts/debugger.txt}",
+      "description": "Root-cause analysis via inspector/fixer/reporter. Standalone primary agent — does not depend on Compose. Pure orchestrator — all investigation, fixes, and reports delegated to subagents.",
+      "prompt": "{file:./prompts/debug.txt}",
       "permission": {
         "read": "deny",
         "glob": "deny",
@@ -79,10 +79,36 @@
       }
     },
 
+    "analyze": {
+      "mode": "primary",
+      "color": "#66ffbf",
+      "temperature": 0.7,
+      "description": "Standalone security and quality auditing agent. Recon and vuln trace, minimal patch application, validation gate.",
+      "prompt": "{file:./prompts/analyze.txt}",
+      "permission": {
+        "read": "deny",
+        "glob": "deny",
+        "grep": "deny",
+        "edit": "deny",
+        "write": "deny",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "bash": "deny",
+        "question": "allow",
+        "todowrite": "allow",
+        "task": {
+          "*": "deny",
+          "tracer": "allow",
+          "patcher": "allow",
+          "auditor": "allow",
+          "analyze-reporter": "allow"
+        }
+      }
+    },
 
     "coder": {
       "mode": "subagent",
-      "description": "Implements tasks assigned by Composer, following the PRD exactly. Tracks own progress via todowrite.",
+      "description": "Implements tasks assigned by Compose, following the PRD exactly. Tracks own progress via todowrite.",
       "prompt": "{file:./prompts/coder.txt}",
       "permission": {
         "read": "allow",
@@ -171,7 +197,7 @@
     "reviewer": {
       "mode": "subagent",
       "temperature": 0.1,
-      "description": "Boolean gate for Composer: compares implementation against PRD definition-of-done. PASS/FAIL + gap list only.",
+      "description": "Boolean gate for Compose: compares implementation against PRD definition-of-done. PASS/FAIL + gap list only.",
       "prompt": "{file:./prompts/reviewer.txt}",
       "permission": {
         "read": "allow",
@@ -197,7 +223,7 @@
 
     "compose-reporter": {
       "mode": "subagent",
-      "description": "Text-file executor for Composer. Writes and edits .md/.txt files under docs/ — stateless formatter for documents only. No bash.",
+      "description": "Text-file executor for Compose. Writes and edits .md/.txt files under docs/ — stateless formatter for documents only. No bash.",
       "prompt": "{file:./prompts/compose-reporter.txt}",
       "permission": {
         "read": {
@@ -223,7 +249,7 @@
 
     "researcher": {
       "mode": "subagent",
-      "description": "Researches technical and codebase context for Composer during EXPLORE phase. Outputs confirmed_facts / inferred_facts / unknowns / risks only.",
+      "description": "Researches technical and codebase context for Compose during EXPLORE phase. Outputs confirmed_facts / inferred_facts / unknowns / risks only.",
       "prompt": "{file:./prompts/researcher.txt}",
       "permission": {
         "read": "allow",
@@ -254,7 +280,7 @@
 
     "plan-writer": {
       "mode": "subagent",
-      "description": "Stateless formatter for Composer. Produces PRD documents from structured input — no inference, no decisions. PRD mode only.",
+      "description": "Stateless formatter for Compose. Produces PRD documents from structured input — no inference, no decisions. PRD mode only.",
       "prompt": "{file:./prompts/plan-writer.txt}",
       "permission": {
         "read": {
@@ -279,7 +305,7 @@
     "plan-checker": {
       "mode": "subagent",
       "temperature": 0.1,
-      "description": "Boolean gate for Composer: checks PRD completeness against original user request. PASS/FAIL + gap list only.",
+      "description": "Boolean gate for Compose: checks PRD completeness against original user request. PASS/FAIL + gap list only.",
       "prompt": "{file:./prompts/plan-checker.txt}",
       "permission": {
         "read": "allow",
@@ -298,7 +324,7 @@
 
     "inspector": {
       "mode": "subagent",
-      "description": "Root-cause analysis for Debugger. Investigates bugs via codebase and web research. Outputs confirmed_facts / inferred_facts / unknowns / risks only.",
+      "description": "Root-cause analysis for Debug. Investigates bugs via codebase and web research. Outputs confirmed_facts / inferred_facts / unknowns / risks only.",
       "prompt": "{file:./prompts/inspector.txt}",
       "permission": {
         "read": "allow",
@@ -328,7 +354,7 @@
 
     "fixer": {
       "mode": "subagent",
-      "description": "Implements bug fixes for Debugger. Follows root cause from inspector. Like coder but focused on fixes — minimal change, root-cause targeting.",
+      "description": "Implements bug fixes for Debug. Follows root cause from inspector. Like coder but focused on fixes — minimal change, root-cause targeting.",
       "prompt": "{file:./prompts/fixer.txt}",
       "permission": {
         "read": "allow",
@@ -377,7 +403,7 @@
 
     "debug-reporter": {
       "mode": "subagent",
-      "description": "Stateless formatter for Debugger. Produces diagnosis + remedy reports from structured input — no inference, no decisions. Summary mode only.",
+      "description": "Stateless formatter for Debug. Produces diagnosis + remedy reports from structured input — no inference, no decisions. Summary mode only.",
       "prompt": "{file:./prompts/debug-reporter.txt}",
       "permission": {
         "read": {
@@ -399,36 +425,10 @@
       }
     },
 
-    "prober": {
-      "mode": "primary",
-      "color": "#66ffbf",
-      "temperature": 0.7,
-      "description": "Standalone security and quality auditing agent. Recon and vuln trace, minimal patch application, validation gate.",
-      "prompt": "{file:./prompts/prober.txt}",
-      "permission": {
-        "read": "deny",
-        "glob": "deny",
-        "grep": "deny",
-        "edit": "deny",
-        "write": "deny",
-        "webfetch": "deny",
-        "websearch": "deny",
-        "bash": "deny",
-        "question": "allow",
-        "todowrite": "allow",
-        "task": {
-          "*": "deny",
-          "tracer": "allow",
-          "patcher": "allow",
-          "auditor": "allow",
-          "probe-reporter": "allow"
-        }
-      }
-    },
 
     "tracer": {
       "mode": "subagent",
-      "description": "Recon attack surface and trace vulnerability paths for Prober. Guided by WSTG and secure code review practices.",
+      "description": "Recon attack surface and trace vulnerability paths for Analyze. Guided by WSTG and secure code review practices.",
       "prompt": "{file:./prompts/tracer.txt}",
       "permission": {
         "read": "allow",
@@ -463,7 +463,7 @@
 
     "patcher": {
       "mode": "subagent",
-      "description": "Applies minimal, security-targeted patches for Prober using Ponytail mindset.",
+      "description": "Applies minimal, security-targeted patches for Analyze using Ponytail mindset.",
       "prompt": "{file:./prompts/patcher.txt}",
       "permission": {
         "read": "allow",
@@ -511,7 +511,7 @@
 
     "auditor": {
       "mode": "subagent",
-      "description": "Validation gate for Prober: checks patch effectiveness and over-engineering. PASS/FAIL + Gap/BLOAT lists only.",
+      "description": "Validation gate for Analyze: checks patch effectiveness and over-engineering. PASS/FAIL + Gap/BLOAT lists only.",
       "prompt": "{file:./prompts/auditor.txt}",
       "permission": {
         "read": "allow",
@@ -545,10 +545,10 @@
       }
     },
 
-    "probe-reporter": {
+    "analyze-reporter": {
       "mode": "subagent",
-      "description": "Stateless formatter for Prober. Produces security audit reports under docs/reports/.",
-      "prompt": "{file:./prompts/probe-reporter.txt}",
+      "description": "Stateless formatter for Analyze. Produces security audit reports under docs/reports/.",
+      "prompt": "{file:./prompts/analyze-reporter.txt}",
       "permission": {
         "read": {
           "*": "deny",

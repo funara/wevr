@@ -11,7 +11,7 @@ describe("configBuilder", () => {
 
     const configJson = {
       agent: {
-        composer: {},
+        compose: {},
         reviewer: {},
         coder: {},
       },
@@ -20,7 +20,7 @@ describe("configBuilder", () => {
       reasoning: {
         provider: "test",
         model: "big-model",
-        agents: ["composer"],
+        agents: ["compose"],
       },
       precision: {
         provider: "test",
@@ -46,7 +46,7 @@ describe("configBuilder", () => {
       tmpDir,
     )
 
-    assert.strictEqual(result.agent.composer.model, "test/big-model")
+    assert.strictEqual(result.agent.compose.model, "test/big-model")
     assert.strictEqual(result.agent.reviewer.model, "test/mid-model")
     assert.strictEqual(result.agent.coder.model, "test/small-model")
 
@@ -58,7 +58,7 @@ describe("configBuilder", () => {
 
     const configJson = {
       agent: {
-        // missing 'composer'
+        // missing 'compose'
         coder: {},
       },
     }
@@ -66,7 +66,7 @@ describe("configBuilder", () => {
       reasoning: {
         provider: "test",
         model: "big-model",
-        agents: ["composer"],
+        agents: ["compose"],
       },
       fast: {
         provider: "test",

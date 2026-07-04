@@ -13,7 +13,7 @@ describe("configWriter", () => {
   })
 
   it("writes config as formatted JSON to the correct path", () => {
-    const configObj = { agent: { composer: { model: "test/model" } } }
+    const configObj = { agent: { compose: { model: "test/model" } } }
     const expected = JSON.stringify(configObj, null, 2)
 
     writeConfig(configObj, tempDir)

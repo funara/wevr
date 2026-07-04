@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-Wevr installs an opinionated, strict AI-agent workflow (Composer, Debugger, and Prober) with 14 specialized subagents into **OpenCode**. It enforces structured phases (Explore -> Plan -> Build), interactive guardrail gates, and test verification without ad-hoc delegation.
+Wevr installs an opinionated, strict AI-agent workflow (Compose, Debug, and Analyze) with 14 specialized subagents into **OpenCode**. It enforces structured phases (Explore -> Plan -> Build), interactive guardrail gates, and test verification without ad-hoc delegation.
 
 ## Quick Start
 
@@ -38,9 +38,9 @@ Wevr installs **3 primary agents + 14 subagents** into OpenCode -- each primary 
 
 | Primary Agent | Purpose | Subagents |
 |---|---|---|
-| **Composer** | Feature work -- Explore -> Plan -> Build | Researcher, Plan-Writer, Plan-Checker, Coder, Tester, Reviewer, Compose-Reporter |
-| **Debugger** | Bug investigation -- Investigate -> Fix -> Report | Inspector, Fixer, Debug-Reporter |
-| **Prober** | Security audit -- Trace -> Patch -> Audit | Tracer, Patcher, Auditor, Probe-Reporter |
+| **Compose** | Feature work -- Explore -> Plan -> Build | Researcher, Plan-Writer, Plan-Checker, Coder, Tester, Reviewer, Compose-Reporter |
+| **Debug** | Bug investigation -- Investigate -> Fix -> Report | Inspector, Fixer, Debug-Reporter |
+| **Analyze** | Security audit -- Trace -> Patch -> Audit | Tracer, Patcher, Auditor, Analyze-Reporter |
 
 ---
 
@@ -52,9 +52,9 @@ To optimize wall-clock execution time, Wevr's primary agents are empowered to **
 
 ## Agent Workflows
 
-### Composer -- Feature Work
+### Compose -- Feature Work
 
-Composer is the **single entry point for all feature work**. It runs 3 strict, one-directional phases. Phase direction is one-way -- no going back without explicit user instruction.
+Compose is the **single entry point for all feature work**. It runs 3 strict, one-directional phases. Phase direction is one-way -- no going back without explicit user instruction.
 
 ```
 You describe a feature / idea
@@ -67,7 +67,7 @@ You describe a feature / idea
   |  -> deep codebase + web fact-finding    |
   |  -> confirmed-inferred facts / risks    |
   |                                         |
-  |  Composer internally assesses:          |
+  |  Compose internally assesses:          |
   |  Is this feature simple or complex?     |
   +----------+------------------------------+
              |
@@ -115,20 +115,20 @@ GUARDRAIL GATE 1a      GUARDRAIL GATE 1b
                v
          You review result
                |
-  Composer resets -> asks: New feature? Debug? Iterate?
+  Compose resets -> asks: New feature? Debug? Iterate?
 ```
 
 **Key rules:**
-- Composer has **no read/write/bash permissions** -- all work delegated to subagents
+- Compose has **no read/write/bash permissions** -- all work delegated to subagents
 - Phase transition only via guardrail gates -- no skipping
 - `Coder -> Coder` loops without Tester verification are forbidden
 - 5 consecutive FAILs from Tester or Reviewer -> surfaces to you
 
 ---
 
-### Debugger -- Bug Investigation
+### Debug -- Bug Investigation
 
-Debugger is a **standalone primary agent** -- does not depend on Composer. Trigger it directly from the Debugger tab whenever you find a bug.
+Debug is a **standalone primary agent** -- does not depend on Compose. Trigger it directly from the Debug tab whenever you find a bug.
 
 ```
 You report a bug / defect
@@ -141,7 +141,7 @@ GUARDRAIL GATE 1 (question tool):
   +---------------------------------------------+
   |  INVESTIGATE PHASE  (Inspector subagent)    |
   |                                             |
-  |  Review mode (Debugger selects):            |
+  |  Review mode (Debug selects):            |
   |  - PR Review        -> classify R1-R6       |
   |  - Architecture     -> dependency analysis  |
   |  - Tech Debt        -> Pain x Spread score  |
@@ -175,20 +175,20 @@ GUARDRAIL GATE 2 (question tool):
          v
    You review the diagnosis + fix
          |
-  Debugger resets -> asks (question tool): Finished? Iterate?
+  Debug resets -> asks (question tool): Finished? Iterate?
 ```
 
 **Key rules:**
-- Debugger has **no read/write/bash permissions** -- all delegated to subagents
+- Debug has **no read/write/bash permissions** -- all delegated to subagents
 - Executes only after Gate 1 (Investigation) and Gate 2 (Fix) user confirmations
 - Never delegates Fixer without Inspector confirming root cause first
 - If unknowns remain after investigation -> halts and prompts you, does not guess
 
 ---
 
-### Prober -- Security Audit
+### Analyze -- Security Audit
 
-Prober is a **standalone primary agent** -- does not depend on Composer or Debugger. Trigger it directly from the Prober tab to audit any codebase for security vulnerabilities and quality decay.
+Analyze is a **standalone primary agent** -- does not depend on Compose or Debug. Trigger it directly from the Analyze tab to audit any codebase for security vulnerabilities and quality decay.
 
 ```
 You trigger a security audit
@@ -243,18 +243,18 @@ GUARDRAIL GATE 1 (question tool):
   |  FAIL -> re-delegate Patcher with Gap + BLOAT    |
   |         lists verbatim (max 5 loops, then you)   |
   |                                                  |
-  |  Delegate: Probe-Reporter                        |
+  |  Delegate: Analyze-Reporter                        |
   |  -> security audit report -> docs/reports/       |
   +--------------------------------------------------+
              |
              v
         You review the audit report
              |
-  Prober resets -> asks (question tool): Finished? Iterate?
+  Analyze resets -> asks (question tool): Finished? Iterate?
 ```
 
 **Key rules:**
-- Prober has **no read/write/bash permissions** -- all delegated to subagents
+- Analyze has **no read/write/bash permissions** -- all delegated to subagents
 - Never starts scanning/tracing without Gate 1 user confirmation
 - Never patches without a GUARDRAIL GATE 2 user confirmation after TRACE
 - 5 consecutive AUDIT FAILs -> surfaces to you
@@ -267,20 +267,20 @@ Each subagent belongs to exactly one primary agent and cannot be invoked by anyo
 
 | Primary | Phase | Subagent | Model Tier | Role |
 |---------|-------|----------|------------|------|
-| Composer | EXPLORE | Researcher | Reasoning | Fact-finding: confirmed_facts / inferred_facts / unknowns / risks |
-| Composer | PLAN | Plan-Writer | Fast | **Formatter** -- writes PRD to `docs/plans/`, missing input = TBD |
-| Composer | PLAN | Plan-Checker | Reasoning | **Gate** -- PASS/FAIL + gap list only, no suggestions |
-| Composer | BUILD | Coder | Fast | Implements code from PRD |
-| Composer | BUILD | Tester | Precision | PASS/FAIL/BLOCKED + coverage gaps only |
-| Composer | BUILD | Reviewer | Precision | **Gate** -- PASS/FAIL + gap list only, no suggestions |
-| Composer | BUILD | Compose-Reporter | Fast | **Formatter** -- completion report to `docs/reports/` |
-| Debugger | INVESTIGATE | Inspector | Reasoning | Brooks-Lint RCA (Iron Law + 6 decay risks + 4 review modes) |
-| Debugger | FIX | Fixer | Fast | Minimal, root-cause-targeted fix |
-| Debugger | REPORT | Debug-Reporter | Fast | **Formatter** -- Iron Law diagnosis report to `docs/reports/` |
-| Prober | TRACE | Tracer | Precision | WSTG recon + vuln path tracing, no remedies |
-| Prober | PATCH | Patcher | Fast | Minimal, security-targeted fix (Ponytail, max 10 lines) |
-| Prober | AUDIT | Auditor | Precision | **Gate** -- PASS/FAIL + Gap List + BLOAT List only |
-| Prober | AUDIT | Probe-Reporter | Fast | **Formatter** -- security audit report to `docs/reports/` |
+| Compose | EXPLORE | Researcher | Reasoning | Fact-finding: confirmed_facts / inferred_facts / unknowns / risks |
+| Compose | PLAN | Plan-Writer | Fast | **Formatter** -- writes PRD to `docs/plans/`, missing input = TBD |
+| Compose | PLAN | Plan-Checker | Reasoning | **Gate** -- PASS/FAIL + gap list only, no suggestions |
+| Compose | BUILD | Coder | Fast | Implements code from PRD |
+| Compose | BUILD | Tester | Precision | PASS/FAIL/BLOCKED + coverage gaps only |
+| Compose | BUILD | Reviewer | Precision | **Gate** -- PASS/FAIL + gap list only, no suggestions |
+| Compose | BUILD | Compose-Reporter | Fast | **Formatter** -- completion report to `docs/reports/` |
+| Debug | INVESTIGATE | Inspector | Reasoning | Brooks-Lint RCA (Iron Law + 6 decay risks + 4 review modes) |
+| Debug | FIX | Fixer | Fast | Minimal, root-cause-targeted fix |
+| Debug | REPORT | Debug-Reporter | Fast | **Formatter** -- Iron Law diagnosis report to `docs/reports/` |
+| Analyze | TRACE | Tracer | Precision | WSTG recon + vuln path tracing, no remedies |
+| Analyze | PATCH | Patcher | Fast | Minimal, security-targeted fix (Ponytail, max 10 lines) |
+| Analyze | AUDIT | Auditor | Precision | **Gate** -- PASS/FAIL + Gap List + BLOAT List only |
+| Analyze | AUDIT | Analyze-Reporter | Fast | **Formatter** -- security audit report to `docs/reports/` |
 
 ---
 
@@ -288,21 +288,21 @@ Each subagent belongs to exactly one primary agent and cannot be invoked by anyo
 
 | Rule | Detail |
 |------|--------|
-| **Mandatory starts** | Composer always starts in EXPLORE. Prober always starts in TRACE. No skipping. |
-| **Guardrail gates** | Composer: Gate 1 (EXPLORE->PLAN/BUILD), Gate 2 (PLAN->BUILD). Prober: Gate after TRACE. All require user confirmation. |
+| **Mandatory starts** | Compose always starts in EXPLORE. Analyze always starts in TRACE. No skipping. |
+| **Guardrail gates** | Compose: Gate 1 (EXPLORE->PLAN/BUILD), Gate 2 (PLAN->BUILD). Analyze: Gate after TRACE. All require user confirmation. |
 | **Gate agents** | Plan-Checker, Reviewer, Auditor -- PASS/FAIL + gap list only. No suggestions, no decisions. |
-| **Formatter agents** | Plan-Writer, Compose-Reporter, Debug-Reporter, Probe-Reporter -- stateless. Missing input = TBD/NA. Never invent content. |
+| **Formatter agents** | Plan-Writer, Compose-Reporter, Debug-Reporter, Analyze-Reporter -- stateless. Missing input = TBD/NA. Never invent content. |
 | **Fact-finding agents** | Researcher, Inspector, Tracer -- facts/inferences/risks only. No recommendations. |
 | **Build gate order** | Coder -> Tester -> Reviewer -> Compose-Reporter. No skipping. No Coder->Coder without verification. |
-| **FAIL loops** | Plan-Checker FAIL: max 5 loops. Build FAIL (Tester/Reviewer): max 5 loops. Prober AUDIT FAIL: max 5 loops. All surface to you after limit. |
-| **Output directories** | PRDs -> `docs/plans/`. Reports (Compose-Reporter, Debug-Reporter, Probe-Reporter) -> `docs/reports/`. Enforced by permissions. |
-| **Independence** | Debugger and Prober are fully standalone -- triggered directly, do not flow through Composer. |
+| **FAIL loops** | Plan-Checker FAIL: max 5 loops. Build FAIL (Tester/Reviewer): max 5 loops. Analyze AUDIT FAIL: max 5 loops. All surface to you after limit. |
+| **Output directories** | PRDs -> `docs/plans/`. Reports (Compose-Reporter, Debug-Reporter, Analyze-Reporter) -> `docs/reports/`. Enforced by permissions. |
+| **Independence** | Debug and Analyze are fully standalone -- triggered directly, do not flow through Compose. |
 
 ---
 
-## Brooks-Lint Methodology (Debugger)
+## Brooks-Lint Methodology (Debug)
 
-The Debugger pipeline uses the [Brooks-Lint](https://hyhmrright.github.io/brooks-lint/guide.html) framework:
+The Debug pipeline uses the [Brooks-Lint](https://hyhmrright.github.io/brooks-lint/guide.html) framework:
 
 - **Iron Law** per finding: Symptom -> Source -> Consequence -> Remedy
 - **6 Decay Risks (R1-R6)**: Cognitive Overload, Change Propagation, Knowledge Duplication, Accidental Complexity, Dependency Disorder, Domain Model Distortion

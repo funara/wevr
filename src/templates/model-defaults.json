@@ -3,9 +3,9 @@
     "provider": "opencode",
     "model": "big-pickle",
     "agents": [
-      "composer",
-      "debugger",
-      "prober",
+      "compose",
+      "debug",
+      "analyze",
       "researcher",
       "plan-checker",
       "inspector"
@@ -55,7 +55,7 @@
       "plan-writer",
       "compose-reporter",
       "debug-reporter",
-      "probe-reporter"
+      "analyze-reporter"
     ],
 
     "recommended": [
