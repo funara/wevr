@@ -12,8 +12,8 @@ describe("configBuilder", () => {
     const configJson = {
       agent: {
         compose: {},
-        reviewer: {},
-        coder: {},
+        verifier: {},
+        builder: {},
       },
     }
     const defaultsJson = {
@@ -25,12 +25,12 @@ describe("configBuilder", () => {
       precision: {
         provider: "test",
         model: "mid-model",
-        agents: ["reviewer"],
+        agents: ["verifier"],
       },
       fast: {
         provider: "test",
         model: "small-model",
-        agents: ["coder"],
+        agents: ["builder"],
       },
     }
 
@@ -47,8 +47,8 @@ describe("configBuilder", () => {
     )
 
     assert.strictEqual(result.agent.compose.model, "test/big-model")
-    assert.strictEqual(result.agent.reviewer.model, "test/mid-model")
-    assert.strictEqual(result.agent.coder.model, "test/small-model")
+    assert.strictEqual(result.agent.verifier.model, "test/mid-model")
+    assert.strictEqual(result.agent.builder.model, "test/small-model")
 
     rmSync(tmpDir, { recursive: true })
   })
@@ -59,7 +59,7 @@ describe("configBuilder", () => {
     const configJson = {
       agent: {
         // missing 'compose'
-        coder: {},
+        builder: {},
       },
     }
     const defaultsJson = {
@@ -71,7 +71,7 @@ describe("configBuilder", () => {
       fast: {
         provider: "test",
         model: "small-model",
-        agents: ["coder"],
+        agents: ["builder"],
       },
     }
 

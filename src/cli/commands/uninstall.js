@@ -53,11 +53,16 @@ export async function runUninstall() {
   }
 
   const themesDir = join(configDir, "themes")
+  const skillsDir = join(configDir, "skills")
 
   // Remove Wevr-installed artifacts
   if (existsSync(promptsDir)) {
     rmSync(promptsDir, { recursive: true, force: true })
     summary.removed.push("prompts/")
+  }
+  if (existsSync(skillsDir)) {
+    rmSync(skillsDir, { recursive: true, force: true })
+    summary.removed.push("skills/")
   }
   if (existsSync(pluginsDir)) {
     rmSync(pluginsDir, { recursive: true, force: true })
@@ -67,10 +72,13 @@ export async function runUninstall() {
     rmSync(binDir, { recursive: true, force: true })
     summary.removed.push("bin/")
   }
-  const customThemePath = join(themesDir, "wevr-contrast.json")
-  if (existsSync(customThemePath)) {
-    rmSync(customThemePath, { force: true })
-    summary.removed.push("themes/wevr-contrast.json")
+  const wevrThemes = ["wevr-colorful.json", "wevr-dark.json", "wevr-light.json"]
+  for (const theme of wevrThemes) {
+    const customThemePath = join(themesDir, theme)
+    if (existsSync(customThemePath)) {
+      rmSync(customThemePath, { force: true })
+      summary.removed.push(`themes/${theme}`)
+    }
   }
 
   // Print summary

@@ -1,4 +1,4 @@
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
+import { mkdirSync, readdirSync, readFileSync, writeFileSync, existsSync, unlinkSync } from "node:fs"
 import { basename, extname, resolve } from "node:path"
 import { getPromptsDir } from "./paths.js"
 import IDENTITY_HEADER from "./identityHeader.js"
@@ -11,6 +11,19 @@ const REFERENCE_FILES = new Set(["hierarchy"])
 export function writeAgentPrompts(templatesDir, destDir) {
   const sourceDir = resolve(templatesDir, "agent-prompts")
   if (!destDir) destDir = getPromptsDir()
+
+  // Clear any existing .txt files in destDir to prevent stale prompts
+  if (existsSync(destDir)) {
+    try {
+      for (const file of readdirSync(destDir)) {
+        if (extname(file) === ".txt") {
+          unlinkSync(resolve(destDir, file))
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }
 
   mkdirSync(destDir, { recursive: true })
 

@@ -14,11 +14,11 @@ describe("tuiConfigWriter", () => {
   })
 
   it("writes new tui.json with theme name if it does not exist", () => {
-    writeTuiConfig("wevr-contrast", tuiPath)
+    writeTuiConfig("wevr-dark", tuiPath)
 
     assert.ok(existsSync(tuiPath))
     const parsed = JSON.parse(readFileSync(tuiPath, "utf-8"))
-    assert.strictEqual(parsed.theme, "wevr-contrast")
+    assert.strictEqual(parsed.theme, "wevr-dark")
     assert.strictEqual(parsed["$schema"], "https://opencode.ai/tui.json")
   })
 
@@ -29,10 +29,10 @@ describe("tuiConfigWriter", () => {
       "font": "monolisa"
     }, null, 2), "utf-8")
 
-    writeTuiConfig("wevr-contrast", tuiPath)
+    writeTuiConfig("wevr-dark", tuiPath)
 
     const parsed = JSON.parse(readFileSync(tuiPath, "utf-8"))
-    assert.strictEqual(parsed.theme, "wevr-contrast")
+    assert.strictEqual(parsed.theme, "wevr-dark")
     assert.strictEqual(parsed.font, "monolisa")
   })
 })

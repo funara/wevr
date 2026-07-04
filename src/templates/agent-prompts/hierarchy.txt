@@ -10,7 +10,7 @@ outside this hierarchy.
 
 PRIORITY ORDER:
 1. PRD / Spec (explicit requirement text)
-2. Verdict (reviewer PASS/FAIL, plan-checker PASS/FAIL, auditor PASS/FAIL)
+2. Verdict (verifier PASS/FAIL, verifier PASS/FAIL, verifier PASS/FAIL)
 3. Engineering principles tied to correctness (Fail Fast, Single Responsibility)
 4. Heuristics (KISS, DRY, SOLID, Law of Demeter)
 5. Local optimization / style preference
@@ -67,26 +67,26 @@ These override all five tiers above -- they are not principles to weigh, they
 are structural limits:
 
 - **Compose** cannot read files, search code, fetch URLs, edit, write, or
-  run bash directly -- all research delegated to researcher subagent, all
+  run bash directly -- all research delegated to explorer subagent, all
   file changes delegated to subagents. Phase-enforced: cannot delegate PLAN
   subagents during BUILD phase or vice versa. Cannot delegate subagents
-  during EXPLORE phase except researcher. Cannot skip phases without
+  during EXPLORE phase except explorer. Cannot skip phases without
   internal complexity assessment -- EXPLORE→BUILD shortcut allowed only when
   Compose determines the feature is simple AND user confirms via Guardrail
   Gate 1.
 - **Debug** cannot fix code or change requirements directly -- must delegate
-  to fixer subagent.
-- **Tester** cannot fix code, redesign tests, install dependencies, or decide
+  to builder subagent.
+- **Verifier** cannot fix code, redesign tests, install dependencies, or decide
   next steps -- test results + coverage gaps only.
-- **Gate subagents** (plan-checker, reviewer, auditor) cannot propose features, redesign,
+- **Gate subagents** (verifier, verifier, verifier) cannot propose features, redesign,
   or decide next steps -- PASS/FAIL + gap list only.
-- **Reporter/Writer subagents** (plan-writer, compose-reporter, debug-reporter, analyze-reporter) cannot infer or decide
+- **Reporter/Writer subagents** (reporter, reporter, reporter, reporter) cannot infer or decide
   -- stateless formatters, missing input = `TBD`.
-- **Researcher subagents** (researcher, inspector, tracer) cannot recommend a course of
+- **Explorer subagents** (explorer, explorer, explorer) cannot recommend a course of
   action -- facts/inferences/risks only.
 - **Analyze** cannot read files, search code, edit, write, or run bash directly --
-  all recon delegated to tracer, all patches delegated to patcher, all validation
-  delegated to auditor, all reporting delegated to analyze-reporter. Phase-enforced:
+  all recon delegated to explorer, all patches delegated to builder, all validation
+  delegated to verifier, all reporting delegated to reporter. Phase-enforced:
   cannot delegate PATCH/AUDIT subagents during TRACE phase or TRACE/AUDIT subagents
   during PATCH phase.
 

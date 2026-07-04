@@ -3,7 +3,7 @@ import { join } from "node:path"
 import { getConfigDir, getConfigPath, getPromptsDir, getThemesDir, getTuiConfigPath } from "../../core/paths.js"
 import { findSqueezePath } from "../../core/squeezeInstaller.js"
 
-const EXPECTED_PROMPT_COUNT = 18
+const EXPECTED_PROMPT_COUNT = 8
 const PLUGIN_FILES = ["wevr-flow.js", "wevr-squeeze.js"]
 
 export function cleanJsonc(content) {
@@ -28,7 +28,7 @@ export function collectChecks() {
   const configExists = existsSync(configPath)
   checks.push({ component: "opencode.jsonc", pass: configExists })
 
-  // 2. All 18 prompt files exist
+  // 2. All 8 prompt files exist
   let promptCount = 0
   if (existsSync(promptsDir)) {
     try {
@@ -38,7 +38,7 @@ export function collectChecks() {
       promptCount = 0
     }
   }
-  checks.push({ component: "18 prompt files", pass: promptCount === EXPECTED_PROMPT_COUNT, detail: `${promptCount}/${EXPECTED_PROMPT_COUNT}` })
+  checks.push({ component: "8 prompt files", pass: promptCount === EXPECTED_PROMPT_COUNT, detail: `${promptCount}/${EXPECTED_PROMPT_COUNT}` })
 
   // 3. Both plugin files exist
   let pluginsFound = 0
@@ -47,16 +47,19 @@ export function collectChecks() {
   }
   checks.push({ component: "plugin files", pass: pluginsFound === PLUGIN_FILES.length, detail: `${pluginsFound}/${PLUGIN_FILES.length}` })
 
-  // 3b. Theme configuration verification
-  const themeExists = existsSync(join(themesDir, "wevr-contrast.json"))
+  // 3b. Theme configuration verification (accepts any valid wevr theme)
+  const ALLOWED_THEMES = new Set(["wevr-dark", "wevr-light", "wevr-colorful"])
   const tuiConfigPath = getTuiConfigPath()
+  let activeTheme = "wevr-dark" // default fallback
   let tuiConfigValid = false
   let tuiDetail = "missing mapping"
+  
   if (existsSync(tuiConfigPath)) {
     try {
       const content = readFileSync(tuiConfigPath, "utf-8")
       const parsed = JSON.parse(content)
-      if (parsed.theme === "wevr-contrast") {
+      if (parsed.theme && ALLOWED_THEMES.has(parsed.theme)) {
+        activeTheme = parsed.theme
         tuiConfigValid = true
         tuiDetail = ""
       } else {
@@ -66,10 +69,12 @@ export function collectChecks() {
       tuiDetail = "corrupted tui.json"
     }
   }
+
+  const themeExists = existsSync(join(themesDir, `${activeTheme}.json`))
   checks.push({
-    component: themeExists && tuiConfigValid ? "wevr-contrast theme configured" : "wevr-contrast theme not configured",
+    component: themeExists && tuiConfigValid ? `${activeTheme} theme configured` : "theme not configured",
     pass: themeExists && tuiConfigValid,
-    detail: !themeExists ? "missing theme file" : tuiDetail
+    detail: !themeExists ? `missing theme file ${activeTheme}.json` : tuiDetail
   })
 
   // 4. package.json with @opencode-ai/plugin dependency

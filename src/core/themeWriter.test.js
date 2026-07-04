@@ -16,11 +16,11 @@ describe("themeWriter", () => {
     const tmpSrcDir = mkdtempSync(join(tmpdir(), "wevr-theme-src-"))
     const srcThemesDir = join(tmpSrcDir, "themes")
     mkdirSync(srcThemesDir, { recursive: true })
-    writeFileSync(join(srcThemesDir, "wevr-contrast.json"), "mock-theme-content", "utf-8")
+    writeFileSync(join(srcThemesDir, "wevr-dark.json"), "mock-theme-content", "utf-8")
 
     writeThemes(tmpSrcDir, destDir)
 
-    const destPath = join(destDir, "wevr-contrast.json")
+    const destPath = join(destDir, "wevr-dark.json")
     assert.ok(existsSync(destPath), "theme file should be copied")
     assert.strictEqual(readFileSync(destPath, "utf-8"), "mock-theme-content")
 

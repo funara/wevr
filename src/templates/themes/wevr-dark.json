@@ -2,40 +2,40 @@
   "$schema": "https://opencode.ai/theme.json",
   "theme": {
     "primary": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "secondary": {
-      "dark": "#99f3ff",
-      "light": "#99f3ff"
+      "dark": "#ff00ff",
+      "light": "#ff00ff"
     },
     "accent": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "error": {
-      "dark": "#fc5d7c",
-      "light": "#fc5d7c"
+      "dark": "#ff0000",
+      "light": "#ff0000"
     },
     "warning": {
-      "dark": "#ff669c",
-      "light": "#ff669c"
+      "dark": "#ffcc00",
+      "light": "#ffcc00"
     },
     "success": {
-      "dark": "#00cc76",
-      "light": "#00cc76"
+      "dark": "#00ff00",
+      "light": "#00ff00"
     },
     "info": {
-      "dark": "#00b4cc",
-      "light": "#00b4cc"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "text": {
       "dark": "#ffffff",
       "light": "#ffffff"
     },
     "textMuted": {
-      "dark": "#888888",
-      "light": "#888888"
+      "dark": "#7c7c7c",
+      "light": "#7c7c7c"
     },
     "background": {
       "dark": "#000000",
@@ -50,36 +50,36 @@
       "light": "#000000"
     },
     "border": {
-      "dark": "#101520",
-      "light": "#101520"
+      "dark": "#ffffff",
+      "light": "#ffffff"
     },
     "borderActive": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "borderSubtle": {
-      "dark": "#101520",
-      "light": "#101520"
+      "dark": "#7c7c7c",
+      "light": "#7c7c7c"
     },
     "diffAdded": {
-      "dark": "#00cc76",
-      "light": "#00cc76"
+      "dark": "#00ff00",
+      "light": "#00ff00"
     },
     "diffRemoved": {
-      "dark": "#fc5d7c",
-      "light": "#fc5d7c"
+      "dark": "#ff0000",
+      "light": "#ff0000"
     },
     "diffContext": {
-      "dark": "#888888",
-      "light": "#888888"
+      "dark": "#7c7c7c",
+      "light": "#7c7c7c"
     },
     "diffAddedBg": {
-      "dark": "#1a2618",
-      "light": "#1a2618"
+      "dark": "#002200",
+      "light": "#002200"
     },
     "diffRemovedBg": {
-      "dark": "#2a1a1a",
-      "light": "#2a1a1a"
+      "dark": "#220000",
+      "light": "#220000"
     },
     "diffContextBg": {
       "dark": "#000000",
@@ -90,60 +90,60 @@
       "light": "#ffffff"
     },
     "markdownHeading": {
-      "dark": "#ff669c",
-      "light": "#ff669c"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "markdownLink": {
-      "dark": "#99f3ff",
-      "light": "#99f3ff"
+      "dark": "#ff00ff",
+      "light": "#ff00ff"
     },
     "markdownLinkText": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "markdownCode": {
-      "dark": "#66ffbf",
-      "light": "#66ffbf"
+      "dark": "#00ff00",
+      "light": "#00ff00"
     },
     "markdownBlockQuote": {
-      "dark": "#888888",
-      "light": "#888888"
+      "dark": "#7c7c7c",
+      "light": "#7c7c7c"
     },
     "markdownStrong": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "syntaxComment": {
-      "dark": "#888888",
-      "light": "#888888"
+      "dark": "#7ca668",
+      "light": "#7ca668"
     },
     "syntaxKeyword": {
-      "dark": "#ff669c",
-      "light": "#ff669c"
+      "dark": "#569cd6",
+      "light": "#569cd6"
     },
     "syntaxFunction": {
-      "dark": "#00b4cc",
-      "light": "#00b4cc"
+      "dark": "#dcdcaa",
+      "light": "#dcdcaa"
     },
     "syntaxVariable": {
-      "dark": "#ffb966",
-      "light": "#ffb966"
+      "dark": "#9cdcfe",
+      "light": "#9cdcfe"
     },
     "syntaxString": {
-      "dark": "#66ffbf",
-      "light": "#66ffbf"
+      "dark": "#ce9178",
+      "light": "#ce9178"
     },
     "syntaxNumber": {
-      "dark": "#a000ff",
-      "light": "#a000ff"
+      "dark": "#b5cea8",
+      "light": "#b5cea8"
     },
     "syntaxType": {
-      "dark": "#99f3ff",
-      "light": "#99f3ff"
+      "dark": "#4ec9b0",
+      "light": "#4ec9b0"
     },
     "syntaxOperator": {
-      "dark": "#ff669c",
-      "light": "#ff669c"
+      "dark": "#ffffff",
+      "light": "#ffffff"
     },
     "syntaxPunctuation": {
       "dark": "#ffffff",
@@ -154,20 +154,20 @@
       "light": "#000000"
     },
     "InputBorder": {
-      "dark": "#101520",
-      "light": "#101520"
+      "dark": "#ffffff",
+      "light": "#ffffff"
     },
     "InputBorderActive": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "inputPrompt": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "inputCursor": {
-      "dark": "#ff7039",
-      "light": "#ff7039"
+      "dark": "#00ffff",
+      "light": "#00ffff"
     },
     "inputText": {
       "dark": "#ffffff",
