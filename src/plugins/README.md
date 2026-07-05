@@ -18,19 +18,9 @@ The output is a structured text dump with numbered messages, agent
 attribution, and one-line tool-invocation summaries, separated by
 `\n\n---\n\n`.
 
-## `wevr-squeeze.js` -- command output filtering
+## `wevr-squeeze.js` -- context quality & session continuity
 
-Implementation of the `WevrSqueezePlugin`. Hooks into `tool.execute.before`
-to rewrite bash commands through the local `squeeze` binary (built on the `rtk`
-engine). The binary filters, groups, truncates, and deduplicates command
-output -- saving 60–90% of tokens across all agents.
-
-The plugin is a thin delegator: all rewrite logic lives in the engine binary.
-It checks `PATH` first, then falls back to Wevr's managed location at
-`~/.config/opencode/bin/squeeze`. If the binary is not found, the plugin
-gracefully disables itself with a warning.
-
-`wevr init` downloads the `squeeze` binary automatically during setup.
+Implementation of the `WevrSqueezePlugin` (rebranded from `token-optimizer-opencode`). Monitors context fill limits and session health, calculates ResourceHealth and SessionEfficiency metrics, alerts on loop/retry patterns, and enables seamless session continuity/restores for same-project tasks.
 
 ## Why `wevr-flow` was extracted
 
@@ -61,8 +51,7 @@ agent in its pipeline, so the tool would have no caller -- YAGNI.
 
 `wevr init` copies both plugins into `~/.config/opencode/plugins/` and
 writes a `package.json` declaring `@opencode-ai/plugin: ^1.17.9` as a
-dependency. For `wevr-squeeze`, it also downloads and extracts the `squeeze`
-engine binary to `~/.config/opencode/bin/`. On OpenCode's first launch, the
+dependency. On OpenCode's first launch, the
 bundled Bun runtime detects the `package.json` and runs `bun install`
 automatically -- no user action required. Once installed, both plugins are
 available to every agent that has the appropriate permissions.

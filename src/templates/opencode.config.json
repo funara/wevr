@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "wevr-dark",
+  "default_agent": "compose",
   "instructions": [
     "{file:./prompts/hierarchy.txt}"
   ],

@@ -11,11 +11,17 @@ import { writePluginBundle, writePluginPackageJson } from "../../core/pluginWrit
 import { writeThemes } from "../../core/themeWriter.js"
 import { writeTuiConfig } from "../../core/tuiConfigWriter.js"
 import { writeSkills } from "../../core/skillsWriter.js"
-import { installSqueeze } from "../../core/squeezeInstaller.js"
-import { getConfigPath, getConfigDir } from "../../core/paths.js"
+import { writeCommands } from "../../core/commandsWriter.js"
+import { version } from "../../core/version.js"
+import { getConfigPath } from "../../core/paths.js"
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const TEMPLATES_DIR = resolve(__dirname, "../../templates")
+const COLORS = [
+  "\x1b[38;2;0;225;255m",  // Bright Cyan
+  "\x1b[38;2;0;200;250m",  // Ocean Blue
+  "\x1b[38;2;50;150;250m",  // Soft Blue-Purple
+  "\x1b[38;2;120;120;255m", // Indigo-Purple
+  "\x1b[38;2;180;90;255m"   // Purple
+];
 
 const ASCII_LOGO_LINES = [
   " ██   ██ ███████ █▌    ▐█ ███████▄",
@@ -25,46 +31,65 @@ const ASCII_LOGO_LINES = [
   " ██   ██ ███████   ▐██▌   ██    ██"
 ];
 
-const COLORS = [
-  "\x1b[38;2;0;220;255m", // Cyan
-  "\x1b[38;2;0;190;225m", // Teal-Cyan
-  "\x1b[38;2;0;160;195m", // Teal
-  "\x1b[38;2;0;130;165m", // Green-Teal
-  "\x1b[38;2;0;100;135m"  // Mint Green
-];
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const TEMPLATES_DIR = resolve(__dirname, "../../templates")
+
+const getLogoFrame = (frame) => {
+  return ASCII_LOGO_LINES.map((line, r) => {
+    // Math.sin(frame / 3.5 - r * 0.8) propagates the wave downwards, creating a rolling ocean wave shape
+    const offset = Math.round(3 + 2 * Math.sin(frame / 3.5 - r * 0.8));
+    return " ".repeat(offset) + line;
+  });
+};
 
 export async function runInit() {
   console.log("\x1b[1;36m┌  wevr init\x1b[0m")
   
   // Print initial blank lines so the animation loop can safely clear them
-  for (let i = 0; i < 6; i++) console.log("│")
+  for (let i = 0; i < 9; i++) console.log("│")
 
   let frame = 0
   const animInterval = setInterval(() => {
-    // Clear logo lines (5 rows + 1 blank line)
-    process.stdout.write("\x1b[6A\x1b[0J")
+    // Clear logo lines (9 rows)
+    process.stdout.write("\x1b[9A\x1b[0J")
     
+    const logo = getLogoFrame(frame);
     for (let r = 0; r < 5; r++) {
-      const offset = Math.round(2 + 2 * Math.sin(frame / 2 + r))
-      const padding = " ".repeat(offset)
-      const color = COLORS[(frame + r) % COLORS.length]
-      console.log("│" + padding + color + ASCII_LOGO_LINES[r] + "\x1b[0m")
+      console.log("│  " + COLORS[(frame + r) % COLORS.length] + logo[r] + "\x1b[0m");
     }
-    console.log("│")
+    console.log("│");
+    console.log(`│  Weave engineering workflows. • v${version} (Stable)`);
+    console.log("│  \x1b[90mPress any key to begin setup...\x1b[0m");
+    console.log("│");
+    
     frame++
   }, 100)
 
-  // Play animation for 1.5 seconds
-  await new Promise((resolve) => setTimeout(resolve, 1500))
-  clearInterval(animInterval)
+  // Loop until user presses any key (or resolve immediately if not running in TTY)
+  if (process.stdin.isTTY) {
+    await new Promise((resolve) => {
+      const onData = (key) => {
+        if (key === "\u0003") {
+          process.exit(0);
+        }
+        clearInterval(animInterval);
+        process.stdin.setRawMode(false);
+        process.stdin.pause();
+        process.stdin.off("data", onData);
+        resolve();
+      };
 
-  // Clear animation space and print stationary colorful final frame
-  process.stdout.write("\x1b[6A\x1b[0J")
-  for (let r = 0; r < 5; r++) {
-    const color = COLORS[r % COLORS.length]
-    console.log("│   " + color + ASCII_LOGO_LINES[r] + "\x1b[0m")
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.setEncoding("utf8");
+      process.stdin.on("data", onData);
+    });
+  } else {
+    clearInterval(animInterval);
   }
-  console.log("│")
+
+  // Overwrite "Press any key to begin setup..." with "Starting setup wizard..." in place
+  process.stdout.write("\x1b[2A\r│  \x1b[32m✓\x1b[0m Starting setup wizard...\x1b[0K\n│\n\n");
 
   const defaultsPath = resolve(TEMPLATES_DIR, "model-defaults.json")
   const modelDefaults = JSON.parse(readFileSync(defaultsPath, "utf-8"))
@@ -101,27 +126,15 @@ export async function runInit() {
   writeSkills(TEMPLATES_DIR)
   console.log("│  Writing skills...         \x1b[32m✓\x1b[0m Installed 17 developer skill playbooks")
 
+  writeCommands(TEMPLATES_DIR)
+  console.log("│  Writing commands...       \x1b[32m✓\x1b[0m Installed 3 custom slash commands")
+
   writeTuiConfig(selectedTheme)
   console.log("│  Writing configuration...  \x1b[32m✓\x1b[0m Configured opencode.jsonc and tui.json")
 
   writePluginBundle()
   writePluginPackageJson()
-  
-  // Dynamic loading spinner during plugin installation
-  const spinner = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
-  let spinFrame = 0;
-  const spinInterval = setInterval(() => {
-    process.stdout.write(`\r│  Installing plugins...     \x1b[36m${spinner[spinFrame % spinner.length]}\x1b[0m Installing wevr-squeeze...`);
-    spinFrame++;
-  }, 80);
-  
-  try {
-    await installSqueeze();
-  } finally {
-    clearInterval(spinInterval);
-    process.stdout.write("\r\x1b[K"); // clear the spinner line
-  }
-  console.log("│  Installing plugins...     \x1b[32m✓\x1b[0m wevr-squeeze installed and enabled");
+  console.log("│  Installing plugins...     \x1b[32m✓\x1b[0m Installed bundled plugins (wevr-flow, wevr-squeeze)");
 
   const path = getConfigPath().replace(/\\/g, "/").replace(/^\//, "")
   console.log(`

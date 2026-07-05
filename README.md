@@ -341,11 +341,10 @@ The everyday command. Runs three steps in sequence:
 
 Prompts you to select models for three agent tiers (reasoning, precision, and fast), then:
 
-- Asks whether to install the wevr-squeeze plugin (can decline)
 - Builds a complete `opencode.jsonc` config with the chosen models injected into the right agents
 - Backs up any existing config to `opencode.jsonc.bak.*`
 - Writes the new config to `~/.config/opencode/opencode.jsonc`
-- Copies all 18 agent prompt files into `~/.config/opencode/prompts/`
+- Copies all 8 agent prompt files into `~/.config/opencode/prompts/`
 - Copies `wevr-flow` and `wevr-squeeze` plugins into `~/.config/opencode/plugins/`
 - Writes a `package.json` declaring `@opencode-ai/plugin` as a dependency
 
@@ -354,11 +353,10 @@ Prompts you to select models for three agent tiers (reasoning, precision, and fa
 Checks installation health and reports pass/fail for each component:
 
 - `opencode.jsonc` exists
-- All 18 prompt files present
+- All 8 prompt files present
 - Both plugin files present
-- `wevr-contrast` theme configured
+- Theme configured
 - `package.json` with `@opencode-ai/plugin` dependency
-- squeeze binary available
 - Config is valid JSON
 
 Exits with code `0` if all pass, `1` if any fail.
@@ -390,7 +388,7 @@ Provides subagents with cross-session context access:
 
 ### `wevr-squeeze`
 
-Hooks into tool execution to rewrite bash commands through the `squeeze` binary, filtering verbose output and saving **60-90% of tokens** across all agents.
+Monitors context fill limits and session health, calculates ResourceHealth and SessionEfficiency metrics, alerts on loop/retry patterns, and enables seamless session continuity/restores for same-project tasks.
 
 Both plugins and their dependency declaration are installed automatically by `wevr init` -- no extra user action required. On OpenCode's first launch, the bundled Bun runtime installs `@opencode-ai/plugin` from the generated `package.json`.
 

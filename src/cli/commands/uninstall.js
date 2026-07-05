@@ -36,6 +36,7 @@ export async function runUninstall() {
   const promptsDir = join(configDir, "prompts")
   const pluginsDir = join(configDir, "plugins")
   const binDir = join(configDir, "bin")
+  const commandsDir = join(configDir, "commands")
 
   const summary = { restored: null, removed: [] }
 
@@ -71,6 +72,10 @@ export async function runUninstall() {
   if (existsSync(binDir)) {
     rmSync(binDir, { recursive: true, force: true })
     summary.removed.push("bin/")
+  }
+  if (existsSync(commandsDir)) {
+    rmSync(commandsDir, { recursive: true, force: true })
+    summary.removed.push("commands/")
   }
   const wevrThemes = ["wevr-colorful.json", "wevr-dark.json", "wevr-light.json"]
   for (const theme of wevrThemes) {

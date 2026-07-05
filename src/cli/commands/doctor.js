@@ -1,10 +1,10 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { join } from "node:path"
-import { getConfigDir, getConfigPath, getPromptsDir, getThemesDir, getTuiConfigPath } from "../../core/paths.js"
-import { findSqueezePath } from "../../core/squeezeInstaller.js"
+import { getConfigDir, getConfigPath, getPromptsDir, getThemesDir, getTuiConfigPath, getCommandsDir } from "../../core/paths.js"
 
 const EXPECTED_PROMPT_COUNT = 8
 const PLUGIN_FILES = ["wevr-flow.js", "wevr-squeeze.js"]
+const EXPECTED_COMMAND_FILES = ["squeeze-quick.md", "squeeze-health.md", "squeeze-dashboard.md"]
 
 export function cleanJsonc(content) {
   return content.replace(
@@ -46,6 +46,14 @@ export function collectChecks() {
     if (existsSync(join(pluginsDir, f))) pluginsFound++
   }
   checks.push({ component: "plugin files", pass: pluginsFound === PLUGIN_FILES.length, detail: `${pluginsFound}/${PLUGIN_FILES.length}` })
+
+  // 3a. Slash command files exist
+  let commandsFound = 0
+  const commandsDir = getCommandsDir()
+  for (const f of EXPECTED_COMMAND_FILES) {
+    if (existsSync(join(commandsDir, f))) commandsFound++
+  }
+  checks.push({ component: "slash command files", pass: commandsFound === EXPECTED_COMMAND_FILES.length, detail: `${commandsFound}/${EXPECTED_COMMAND_FILES.length}` })
 
   // 3b. Theme configuration verification (accepts any valid wevr theme)
   const ALLOWED_THEMES = new Set(["wevr-dark", "wevr-light", "wevr-colorful"])
@@ -89,16 +97,6 @@ export function collectChecks() {
   }
   checks.push({ component: "package.json + plugin dep", pass: pkgValid })
 
-  // 5. Squeeze binary exists
-  let squeezeFound = false
-  const squeezeOnPath = findSqueezePath()
-  if (squeezeOnPath) {
-    squeezeFound = true
-  } else {
-    const binName = process.platform === "win32" ? "squeeze.exe" : "squeeze"
-    squeezeFound = existsSync(join(binDir, binName))
-  }
-  checks.push({ component: "squeeze binary tested", pass: squeezeFound })
 
   // 6. Config is valid JSON/JSONC
   let configValid = false
